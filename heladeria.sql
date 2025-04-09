@@ -3,13 +3,14 @@
 --
 
 -- Dumped from database version 16.8
--- Dumped by pg_dump version 16.8
+-- Dumped by pg_dump version 17.2
 
--- Started on 2025-04-08 21:21:02
+-- Started on 2025-04-08 22:24:27
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -18,26 +19,37 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- TOC entry 891 (class 1247 OID 32932)
+-- Name: turno_tipo; Type: DOMAIN; Schema: public; Owner: postgres
+--
+
+CREATE DOMAIN public.turno_tipo AS character varying(20)
+	CONSTRAINT turno_tipo_check CHECK (((VALUE)::text = ANY ((ARRAY['mañana'::character varying, 'tarde'::character varying, 'noche'::character varying])::text[])));
+
+
+ALTER DOMAIN public.turno_tipo OWNER TO postgres;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- TOC entry 219 (class 1259 OID 16410)
+-- TOC entry 215 (class 1259 OID 32769)
 -- Name: administrativos; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.administrativos (
     idadmin integer NOT NULL,
     titulo character varying(255) NOT NULL,
-    turno character varying(6) NOT NULL
+    turno public.turno_tipo NOT NULL
 );
 
 
 ALTER TABLE public.administrativos OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 16416)
+-- TOC entry 216 (class 1259 OID 32772)
 -- Name: clientes; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -56,7 +68,7 @@ CREATE TABLE public.clientes (
 ALTER TABLE public.clientes OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 16415)
+-- TOC entry 217 (class 1259 OID 32777)
 -- Name: clientes_idcliente_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -71,8 +83,8 @@ CREATE SEQUENCE public.clientes_idcliente_seq
 ALTER SEQUENCE public.clientes_idcliente_seq OWNER TO postgres;
 
 --
--- TOC entry 4942 (class 0 OID 0)
--- Dependencies: 220
+-- TOC entry 4911 (class 0 OID 0)
+-- Dependencies: 217
 -- Name: clientes_idcliente_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -80,7 +92,7 @@ ALTER SEQUENCE public.clientes_idcliente_seq OWNED BY public.clientes.idcliente;
 
 
 --
--- TOC entry 233 (class 1259 OID 16478)
+-- TOC entry 218 (class 1259 OID 32778)
 -- Name: compone; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -94,7 +106,7 @@ CREATE TABLE public.compone (
 ALTER TABLE public.compone OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1259 OID 16477)
+-- TOC entry 219 (class 1259 OID 32781)
 -- Name: compone_idcompone_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -109,8 +121,8 @@ CREATE SEQUENCE public.compone_idcompone_seq
 ALTER SEQUENCE public.compone_idcompone_seq OWNER TO postgres;
 
 --
--- TOC entry 4943 (class 0 OID 0)
--- Dependencies: 232
+-- TOC entry 4912 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: compone_idcompone_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -118,7 +130,7 @@ ALTER SEQUENCE public.compone_idcompone_seq OWNED BY public.compone.idcompone;
 
 
 --
--- TOC entry 227 (class 1259 OID 16450)
+-- TOC entry 220 (class 1259 OID 32782)
 -- Name: contiene; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -134,7 +146,7 @@ CREATE TABLE public.contiene (
 ALTER TABLE public.contiene OWNER TO postgres;
 
 --
--- TOC entry 226 (class 1259 OID 16449)
+-- TOC entry 221 (class 1259 OID 32787)
 -- Name: contiene_idcontiene_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -149,8 +161,8 @@ CREATE SEQUENCE public.contiene_idcontiene_seq
 ALTER SEQUENCE public.contiene_idcontiene_seq OWNER TO postgres;
 
 --
--- TOC entry 4944 (class 0 OID 0)
--- Dependencies: 226
+-- TOC entry 4913 (class 0 OID 0)
+-- Dependencies: 221
 -- Name: contiene_idcontiene_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -158,7 +170,7 @@ ALTER SEQUENCE public.contiene_idcontiene_seq OWNED BY public.contiene.idcontien
 
 
 --
--- TOC entry 216 (class 1259 OID 16389)
+-- TOC entry 222 (class 1259 OID 32788)
 -- Name: empleados; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -179,7 +191,7 @@ CREATE TABLE public.empleados (
 ALTER TABLE public.empleados OWNER TO postgres;
 
 --
--- TOC entry 215 (class 1259 OID 16388)
+-- TOC entry 223 (class 1259 OID 32793)
 -- Name: empleados_idempleado_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -194,8 +206,8 @@ CREATE SEQUENCE public.empleados_idempleado_seq1
 ALTER SEQUENCE public.empleados_idempleado_seq1 OWNER TO postgres;
 
 --
--- TOC entry 4945 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 4914 (class 0 OID 0)
+-- Dependencies: 223
 -- Name: empleados_idempleado_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -203,7 +215,7 @@ ALTER SEQUENCE public.empleados_idempleado_seq1 OWNED BY public.empleados.idempl
 
 
 --
--- TOC entry 229 (class 1259 OID 16460)
+-- TOC entry 224 (class 1259 OID 32794)
 -- Name: gustos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -217,7 +229,7 @@ CREATE TABLE public.gustos (
 ALTER TABLE public.gustos OWNER TO postgres;
 
 --
--- TOC entry 228 (class 1259 OID 16459)
+-- TOC entry 225 (class 1259 OID 32799)
 -- Name: gustos_idgusto_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -232,8 +244,8 @@ CREATE SEQUENCE public.gustos_idgusto_seq
 ALTER SEQUENCE public.gustos_idgusto_seq OWNER TO postgres;
 
 --
--- TOC entry 4946 (class 0 OID 0)
--- Dependencies: 228
+-- TOC entry 4915 (class 0 OID 0)
+-- Dependencies: 225
 -- Name: gustos_idgusto_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -241,7 +253,7 @@ ALTER SEQUENCE public.gustos_idgusto_seq OWNED BY public.gustos.idgusto;
 
 
 --
--- TOC entry 225 (class 1259 OID 16437)
+-- TOC entry 226 (class 1259 OID 32800)
 -- Name: helados; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -259,7 +271,7 @@ CREATE TABLE public.helados (
 ALTER TABLE public.helados OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 16436)
+-- TOC entry 227 (class 1259 OID 32807)
 -- Name: helados_idhelado_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -274,8 +286,8 @@ CREATE SEQUENCE public.helados_idhelado_seq
 ALTER SEQUENCE public.helados_idhelado_seq OWNER TO postgres;
 
 --
--- TOC entry 4947 (class 0 OID 0)
--- Dependencies: 224
+-- TOC entry 4916 (class 0 OID 0)
+-- Dependencies: 227
 -- Name: helados_idhelado_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -283,7 +295,7 @@ ALTER SEQUENCE public.helados_idhelado_seq OWNED BY public.helados.idhelado;
 
 
 --
--- TOC entry 223 (class 1259 OID 16428)
+-- TOC entry 228 (class 1259 OID 32808)
 -- Name: pedidos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -301,7 +313,7 @@ CREATE TABLE public.pedidos (
 ALTER TABLE public.pedidos OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 16427)
+-- TOC entry 229 (class 1259 OID 32812)
 -- Name: pedidos_idpedido_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -316,8 +328,8 @@ CREATE SEQUENCE public.pedidos_idpedido_seq
 ALTER SEQUENCE public.pedidos_idpedido_seq OWNER TO postgres;
 
 --
--- TOC entry 4948 (class 0 OID 0)
--- Dependencies: 222
+-- TOC entry 4917 (class 0 OID 0)
+-- Dependencies: 229
 -- Name: pedidos_idpedido_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -325,7 +337,7 @@ ALTER SEQUENCE public.pedidos_idpedido_seq OWNED BY public.pedidos.idpedido;
 
 
 --
--- TOC entry 217 (class 1259 OID 16398)
+-- TOC entry 230 (class 1259 OID 32813)
 -- Name: planta; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -338,7 +350,7 @@ CREATE TABLE public.planta (
 ALTER TABLE public.planta OWNER TO postgres;
 
 --
--- TOC entry 231 (class 1259 OID 16470)
+-- TOC entry 231 (class 1259 OID 32816)
 -- Name: prepara; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -352,7 +364,7 @@ CREATE TABLE public.prepara (
 ALTER TABLE public.prepara OWNER TO postgres;
 
 --
--- TOC entry 230 (class 1259 OID 16469)
+-- TOC entry 232 (class 1259 OID 32819)
 -- Name: prepara_idprepara_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -367,8 +379,8 @@ CREATE SEQUENCE public.prepara_idprepara_seq
 ALTER SEQUENCE public.prepara_idprepara_seq OWNER TO postgres;
 
 --
--- TOC entry 4949 (class 0 OID 0)
--- Dependencies: 230
+-- TOC entry 4918 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: prepara_idprepara_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -376,20 +388,20 @@ ALTER SEQUENCE public.prepara_idprepara_seq OWNED BY public.prepara.idprepara;
 
 
 --
--- TOC entry 218 (class 1259 OID 16403)
+-- TOC entry 233 (class 1259 OID 32820)
 -- Name: repartidores; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.repartidores (
     idrepartidor integer NOT NULL,
-    turno character varying NOT NULL
+    turno public.turno_tipo NOT NULL
 );
 
 
 ALTER TABLE public.repartidores OWNER TO postgres;
 
 --
--- TOC entry 4736 (class 2604 OID 16552)
+-- TOC entry 4685 (class 2604 OID 32825)
 -- Name: clientes idcliente; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -397,7 +409,7 @@ ALTER TABLE ONLY public.clientes ALTER COLUMN idcliente SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 4747 (class 2604 OID 16558)
+-- TOC entry 4686 (class 2604 OID 32826)
 -- Name: compone idcompone; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -405,7 +417,7 @@ ALTER TABLE ONLY public.compone ALTER COLUMN idcompone SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 4742 (class 2604 OID 16555)
+-- TOC entry 4687 (class 2604 OID 32827)
 -- Name: contiene idcontiene; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -413,7 +425,7 @@ ALTER TABLE ONLY public.contiene ALTER COLUMN idcontiene SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 4735 (class 2604 OID 16551)
+-- TOC entry 4690 (class 2604 OID 32828)
 -- Name: empleados idempleado; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -421,7 +433,7 @@ ALTER TABLE ONLY public.empleados ALTER COLUMN idempleado SET DEFAULT nextval('p
 
 
 --
--- TOC entry 4745 (class 2604 OID 16556)
+-- TOC entry 4691 (class 2604 OID 32829)
 -- Name: gustos idgusto; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -429,7 +441,7 @@ ALTER TABLE ONLY public.gustos ALTER COLUMN idgusto SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 4739 (class 2604 OID 16554)
+-- TOC entry 4692 (class 2604 OID 32830)
 -- Name: helados idhelado; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -437,7 +449,7 @@ ALTER TABLE ONLY public.helados ALTER COLUMN idhelado SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 4737 (class 2604 OID 16553)
+-- TOC entry 4695 (class 2604 OID 32831)
 -- Name: pedidos idpedido; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -445,7 +457,7 @@ ALTER TABLE ONLY public.pedidos ALTER COLUMN idpedido SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 4746 (class 2604 OID 16557)
+-- TOC entry 4697 (class 2604 OID 32832)
 -- Name: prepara idprepara; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -453,7 +465,195 @@ ALTER TABLE ONLY public.prepara ALTER COLUMN idprepara SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 4761 (class 2606 OID 16423)
+-- TOC entry 4887 (class 0 OID 32769)
+-- Dependencies: 215
+-- Data for Name: administrativos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.administrativos (idadmin, titulo, turno) FROM stdin;
+1	Abogado	tarde
+\.
+
+
+--
+-- TOC entry 4888 (class 0 OID 32772)
+-- Dependencies: 216
+-- Data for Name: clientes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.clientes (idcliente, num_cliente, nombre_c, cuit, email, telefon, direccion, fecha_alta) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4890 (class 0 OID 32778)
+-- Dependencies: 218
+-- Data for Name: compone; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.compone (idcompone, helado, gusto) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4892 (class 0 OID 32782)
+-- Dependencies: 220
+-- Data for Name: contiene; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.contiene (idcontiene, helado, pedido, cantidad, precio) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4894 (class 0 OID 32788)
+-- Dependencies: 222
+-- Data for Name: empleados; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.empleados (idempleado, nombre, apellido, dni, cuil, direccion, telefono, fecha_alta, fecha_baja, jefe) FROM stdin;
+1	Tiziano	Martinelli	4545454	34343323	Alsina	232541232	2025-08-04	2025-09-04	1
+3	juan	cacho	45425454	33333	aaaa	23211541232	2025-08-04	2025-09-04	1
+5	Juan	pedro	45435454	3111123	Alem 22	232541232	2025-08-04	2025-09-04	1
+\.
+
+
+--
+-- TOC entry 4896 (class 0 OID 32794)
+-- Dependencies: 224
+-- Data for Name: gustos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.gustos (idgusto, nombre_g, descripcion) FROM stdin;
+2	Dulce de leche	Rico
+\.
+
+
+--
+-- TOC entry 4898 (class 0 OID 32800)
+-- Dependencies: 226
+-- Data for Name: helados; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.helados (idhelado, codigo_h, nombre_h, peso_gramos, fecha_vencimiento, precio, cant_ingredientes) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4900 (class 0 OID 32808)
+-- Dependencies: 228
+-- Data for Name: pedidos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.pedidos (idpedido, num_pedido, fecha, total, cliente, administrativo, repartidor) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4902 (class 0 OID 32813)
+-- Dependencies: 230
+-- Data for Name: planta; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.planta (idplanta, turno) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4903 (class 0 OID 32816)
+-- Dependencies: 231
+-- Data for Name: prepara; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.prepara (idprepara, gusto, planta) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4905 (class 0 OID 32820)
+-- Dependencies: 233
+-- Data for Name: repartidores; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.repartidores (idrepartidor, turno) FROM stdin;
+5	tarde
+\.
+
+
+--
+-- TOC entry 4919 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: clientes_idcliente_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.clientes_idcliente_seq', 1, false);
+
+
+--
+-- TOC entry 4920 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: compone_idcompone_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.compone_idcompone_seq', 1, false);
+
+
+--
+-- TOC entry 4921 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: contiene_idcontiene_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.contiene_idcontiene_seq', 1, false);
+
+
+--
+-- TOC entry 4922 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: empleados_idempleado_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.empleados_idempleado_seq1', 5, true);
+
+
+--
+-- TOC entry 4923 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: gustos_idgusto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.gustos_idgusto_seq', 2, true);
+
+
+--
+-- TOC entry 4924 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: helados_idhelado_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.helados_idhelado_seq', 1, false);
+
+
+--
+-- TOC entry 4925 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: pedidos_idpedido_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.pedidos_idpedido_seq', 1, false);
+
+
+--
+-- TOC entry 4926 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: prepara_idprepara_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.prepara_idprepara_seq', 1, false);
+
+
+--
+-- TOC entry 4704 (class 2606 OID 32834)
 -- Name: clientes idcliente; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -462,7 +662,7 @@ ALTER TABLE ONLY public.clientes
 
 
 --
--- TOC entry 4771 (class 2606 OID 16457)
+-- TOC entry 4710 (class 2606 OID 32836)
 -- Name: contiene idcontiene; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -471,7 +671,7 @@ ALTER TABLE ONLY public.contiene
 
 
 --
--- TOC entry 4756 (class 2606 OID 16414)
+-- TOC entry 4699 (class 2606 OID 32838)
 -- Name: administrativos iddamin; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -480,7 +680,7 @@ ALTER TABLE ONLY public.administrativos
 
 
 --
--- TOC entry 4750 (class 2606 OID 16396)
+-- TOC entry 4713 (class 2606 OID 32840)
 -- Name: empleados idempleado; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -489,7 +689,7 @@ ALTER TABLE ONLY public.empleados
 
 
 --
--- TOC entry 4780 (class 2606 OID 16483)
+-- TOC entry 4707 (class 2606 OID 32842)
 -- Name: compone idgusto_idhelado; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -498,7 +698,7 @@ ALTER TABLE ONLY public.compone
 
 
 --
--- TOC entry 4774 (class 2606 OID 16467)
+-- TOC entry 4716 (class 2606 OID 32844)
 -- Name: gustos idgustos; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -507,7 +707,7 @@ ALTER TABLE ONLY public.gustos
 
 
 --
--- TOC entry 4768 (class 2606 OID 16446)
+-- TOC entry 4720 (class 2606 OID 32846)
 -- Name: helados idhelado; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -516,7 +716,7 @@ ALTER TABLE ONLY public.helados
 
 
 --
--- TOC entry 4752 (class 2606 OID 16402)
+-- TOC entry 4725 (class 2606 OID 32848)
 -- Name: planta idplanta; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -525,7 +725,7 @@ ALTER TABLE ONLY public.planta
 
 
 --
--- TOC entry 4777 (class 2606 OID 16475)
+-- TOC entry 4728 (class 2606 OID 32850)
 -- Name: prepara idprepara; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -534,7 +734,7 @@ ALTER TABLE ONLY public.prepara
 
 
 --
--- TOC entry 4754 (class 2606 OID 16409)
+-- TOC entry 4730 (class 2606 OID 32852)
 -- Name: repartidores idrepartidor; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -543,7 +743,7 @@ ALTER TABLE ONLY public.repartidores
 
 
 --
--- TOC entry 4764 (class 2606 OID 16434)
+-- TOC entry 4723 (class 2606 OID 32854)
 -- Name: pedidos pedidos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -552,7 +752,7 @@ ALTER TABLE ONLY public.pedidos
 
 
 --
--- TOC entry 4757 (class 1259 OID 16424)
+-- TOC entry 4700 (class 1259 OID 32855)
 -- Name: ck_clientes_email; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -560,7 +760,7 @@ CREATE UNIQUE INDEX ck_clientes_email ON public.clientes USING btree (email);
 
 
 --
--- TOC entry 4765 (class 1259 OID 16447)
+-- TOC entry 4717 (class 1259 OID 32856)
 -- Name: ck_codigo; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -568,7 +768,7 @@ CREATE UNIQUE INDEX ck_codigo ON public.helados USING btree (codigo_h);
 
 
 --
--- TOC entry 4778 (class 1259 OID 16484)
+-- TOC entry 4705 (class 1259 OID 32857)
 -- Name: ck_compone; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -576,7 +776,7 @@ CREATE UNIQUE INDEX ck_compone ON public.compone USING btree (helado, gusto);
 
 
 --
--- TOC entry 4769 (class 1259 OID 16458)
+-- TOC entry 4708 (class 1259 OID 32858)
 -- Name: ck_contiene; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -584,7 +784,7 @@ CREATE UNIQUE INDEX ck_contiene ON public.contiene USING btree (helado, pedido);
 
 
 --
--- TOC entry 4758 (class 1259 OID 16426)
+-- TOC entry 4701 (class 1259 OID 32859)
 -- Name: ck_cuit_clientes; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -592,7 +792,7 @@ CREATE UNIQUE INDEX ck_cuit_clientes ON public.clientes USING btree (cuit);
 
 
 --
--- TOC entry 4748 (class 1259 OID 16397)
+-- TOC entry 4711 (class 1259 OID 32860)
 -- Name: ck_empleados_cuil; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -600,7 +800,7 @@ CREATE UNIQUE INDEX ck_empleados_cuil ON public.empleados USING btree (cuil);
 
 
 --
--- TOC entry 4766 (class 1259 OID 16448)
+-- TOC entry 4718 (class 1259 OID 32861)
 -- Name: ck_nombre_h_peso_gramos; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -608,7 +808,7 @@ CREATE UNIQUE INDEX ck_nombre_h_peso_gramos ON public.helados USING btree (nombr
 
 
 --
--- TOC entry 4775 (class 1259 OID 16476)
+-- TOC entry 4726 (class 1259 OID 32862)
 -- Name: ck_prepara; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -616,7 +816,7 @@ CREATE UNIQUE INDEX ck_prepara ON public.prepara USING btree (gusto, planta);
 
 
 --
--- TOC entry 4759 (class 1259 OID 16425)
+-- TOC entry 4702 (class 1259 OID 32863)
 -- Name: clk_clientes_num_cliente; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -624,7 +824,7 @@ CREATE UNIQUE INDEX clk_clientes_num_cliente ON public.clientes USING btree (num
 
 
 --
--- TOC entry 4772 (class 1259 OID 16468)
+-- TOC entry 4714 (class 1259 OID 32864)
 -- Name: gustos_nombre_g_key; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -632,7 +832,7 @@ CREATE UNIQUE INDEX gustos_nombre_g_key ON public.gustos USING btree (nombre_g);
 
 
 --
--- TOC entry 4762 (class 1259 OID 16435)
+-- TOC entry 4721 (class 1259 OID 32865)
 -- Name: pedidos_num_pedido_key; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -640,7 +840,7 @@ CREATE UNIQUE INDEX pedidos_num_pedido_key ON public.pedidos USING btree (num_pe
 
 
 --
--- TOC entry 4785 (class 2606 OID 16515)
+-- TOC entry 4737 (class 2606 OID 32866)
 -- Name: pedidos administrativos_pedidos_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -649,7 +849,7 @@ ALTER TABLE ONLY public.pedidos
 
 
 --
--- TOC entry 4786 (class 2606 OID 16520)
+-- TOC entry 4738 (class 2606 OID 32871)
 -- Name: pedidos clientes_pedidos_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -658,7 +858,7 @@ ALTER TABLE ONLY public.pedidos
 
 
 --
--- TOC entry 4784 (class 2606 OID 16485)
+-- TOC entry 4731 (class 2606 OID 32876)
 -- Name: administrativos empleados_administrativos_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -667,7 +867,7 @@ ALTER TABLE ONLY public.administrativos
 
 
 --
--- TOC entry 4781 (class 2606 OID 16490)
+-- TOC entry 4736 (class 2606 OID 32881)
 -- Name: empleados empleados_empleados_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -676,7 +876,7 @@ ALTER TABLE ONLY public.empleados
 
 
 --
--- TOC entry 4782 (class 2606 OID 16500)
+-- TOC entry 4740 (class 2606 OID 32886)
 -- Name: planta empleados_planta_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -685,7 +885,7 @@ ALTER TABLE ONLY public.planta
 
 
 --
--- TOC entry 4783 (class 2606 OID 16495)
+-- TOC entry 4743 (class 2606 OID 32891)
 -- Name: repartidores empleados_repartidores_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -694,7 +894,7 @@ ALTER TABLE ONLY public.repartidores
 
 
 --
--- TOC entry 4792 (class 2606 OID 16540)
+-- TOC entry 4732 (class 2606 OID 32896)
 -- Name: compone gustos_compone_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -703,7 +903,7 @@ ALTER TABLE ONLY public.compone
 
 
 --
--- TOC entry 4790 (class 2606 OID 16545)
+-- TOC entry 4741 (class 2606 OID 32901)
 -- Name: prepara gustos_prepara_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -712,7 +912,7 @@ ALTER TABLE ONLY public.prepara
 
 
 --
--- TOC entry 4793 (class 2606 OID 16530)
+-- TOC entry 4733 (class 2606 OID 32906)
 -- Name: compone helados_compone_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -721,7 +921,7 @@ ALTER TABLE ONLY public.compone
 
 
 --
--- TOC entry 4788 (class 2606 OID 16535)
+-- TOC entry 4734 (class 2606 OID 32911)
 -- Name: contiene helados_contiene_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -730,7 +930,7 @@ ALTER TABLE ONLY public.contiene
 
 
 --
--- TOC entry 4789 (class 2606 OID 16525)
+-- TOC entry 4735 (class 2606 OID 32916)
 -- Name: contiene pedidos_contiene_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -739,7 +939,7 @@ ALTER TABLE ONLY public.contiene
 
 
 --
--- TOC entry 4791 (class 2606 OID 16505)
+-- TOC entry 4742 (class 2606 OID 32921)
 -- Name: prepara planta_prepara_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -748,7 +948,7 @@ ALTER TABLE ONLY public.prepara
 
 
 --
--- TOC entry 4787 (class 2606 OID 16510)
+-- TOC entry 4739 (class 2606 OID 32926)
 -- Name: pedidos repartidores_pedidos_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -756,7 +956,7 @@ ALTER TABLE ONLY public.pedidos
     ADD CONSTRAINT repartidores_pedidos_fk FOREIGN KEY (repartidor) REFERENCES public.repartidores(idrepartidor);
 
 
--- Completed on 2025-04-08 21:21:02
+-- Completed on 2025-04-08 22:24:27
 
 --
 -- PostgreSQL database dump complete
